@@ -47,7 +47,6 @@ graph TD
     SW_Edge -->|Fa0/11 Access VLAN 10| PC2
     SW_Edge -->|Fa0/20 Access VLAN 20| PC3
     SW_Edge -->|Fa0/21 Access VLAN 20| PC4
-
 ```
 
 ---
@@ -88,7 +87,6 @@ interface range FastEthernet0/10 - 11
 !
 interface range FastEthernet0/3 - 9, FastEthernet0/12 - 19, FastEthernet0/22 - 24
  shutdown
-
 ```
 
 ### 2. Edge WAN Routing & Dynamic NAT/PAT (R1 Configuration)
@@ -108,7 +106,6 @@ ip dhcp pool VLAN10_POOL
 ip dhcp pool VLAN20_POOL
  network 192.168.20.0 255.255.255.0
  default-router 192.168.20.1
-
 ```
 
 ---
@@ -125,7 +122,6 @@ By default, standard legacy Catalyst desktop switches are equipped with an appli
 ```ios
 SW-Core(config)# sdm prefer dual-ipv4-and-ipv6 default
 SW-Core# reload
-
 ```
 
 
@@ -137,7 +133,6 @@ During initial staging, endpoints within a single VLAN successfully negotiated I
 * **The Engineering Fix:** Manually verified via the router CLI that Router Advertisements were unsuppressed (`no ipv6 nd ra-suppress`) and verified convergence by confirming that both link-local and global unicast endpoints populated the central hardware routing engine's neighbor database:
 ```ios
 R1# show ipv6 neighbors
-
 ```
 
 
@@ -162,7 +157,6 @@ Source Ports           :
 Destination Ports      : Gi0/24
     Encapsulation      : Native
           Ingress      : Disabled
-
 ```
 
 *Artifact Reference:* `![SPAN Verification Status](./telemetry/cli-core-span-verification.png)`
@@ -177,7 +171,6 @@ Transmission Control Protocol, Src Port: 53211, Dst Port: 22, Seq: 1, Ack: 1
 SSH Protocol
     SSH Version 2 (encryption active)
     Key Exchange Init Packet (Encapsulated)
-
 ```
 
 *Artifact Reference:* `![Wireshark SSHv2 Payload](./telemetry/wireshark-sshv2-handshake-intercept.png)`
@@ -201,9 +194,3 @@ All hardware diagnostic logs, topology maps, and raw network capture traces are 
 ## License
 
 This architecture documentation archive is released under the terms of the MIT Open Source License.
-
-This complete GitHub layout provides everything needed to establish your repository. You have cleanly documented the full lifecycle of a secure enterprise branch network. 
-
-Whenever you are ready to pivot, we can begin structuring your educational Hashnode technical tutorial based on this infrastructure!
-
-```
