@@ -70,7 +70,7 @@ graph TD
 
 ## Infrastructure Hardening Blueprint (Sanitized)
 
-The complete production-ready configurations are maintained inside the [`/configs`](https://www.google.com/search?q=./configs) directory. Key hardening structures implemented across the baseline include:
+The complete production-ready configurations are maintained inside the [`/configs`](./configs) directory. Key hardening structures implemented across the baseline include:
 
 ### 1. Dynamic IPv4 Allocation & Port Security (SW-Edge Configuration)
 
@@ -186,8 +186,8 @@ Filtering the telemetry file for `icmpv6` isolates Neighbor Solicitation and Rou
 
 All hardware diagnostic logs, topology maps, and raw network capture traces are safely committed within the project structure:
 
-* **Raw IOS Configuration Node Prints:** Located in [`/configs/`](https://www.google.com/search?q=./configs).
-* **Raw Telemetry Packet Capture Files:** Located in [`/telemetry/span-capture.pcap`](https://www.google.com/search?q=./telemetry).
+* **Raw IOS Configuration Node Prints:** Located in [`/configs/`](./configs).
+* **Raw Telemetry Packet Capture Files:** Located in [`/telemetry/span-capture.pcap`](./telemetry).
 
 ---
 
