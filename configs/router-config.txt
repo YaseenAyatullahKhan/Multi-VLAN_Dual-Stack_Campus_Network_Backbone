@@ -1,0 +1,62 @@
+enable
+configure terminal
+
+# 1. Basic Device Security & Password Encryption
+hostname R1
+service password-encryption
+enable secret Corp-R1
+banner motd "UNAUTHORIZED ACCESS IS STRICTLY PROHIBITED!"
+
+# 2. Global IPv6 Routing Initiation
+ipv6 unicast-routing
+
+# 3. Secure SSHv2 Configuration
+ip domain-name enterprise.net
+crypto key generate rsa general-keys modulus 1024
+username net_admin privilege 15 secret Net_Admin@Corp-R1
+ip ssh version 2
+
+# 4. Lock Down Terminal Lines
+line console 0
+ password C@nsPassw0rd
+ login
+line vty 0 4
+ transport input ssh
+ login local
+
+# 5. Enable Physical Trunk Port
+interface GigabitEthernet0/0
+ no shutdown
+
+# 6. Configure Router-on-a-Stick Sub-interfaces
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ipv6 address 2001:db8:acad:10::1/64
+ ipv6 address fe80::1 link-local
+
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ ipv6 address 2001:db8:acad:20::1/64
+ ipv6 address fe80::1 link-local
+
+# VLAN 99 must be configured as the 'Native' trunk vlan
+interface GigabitEthernet0/0.99
+ encapsulation dot1Q 99 native
+ ip address 192.168.99.1 255.255.255.0
+ ipv6 address 2001:db8:acad:99::1/64
+ ipv6 address fe80::1 link-local
+
+# 7. DHCP Pools for VLANs
+ip dhcp pool VLAN10_POOL
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+
+ip dhcp pool VLAN20_POOL
+network 192.168.20.0 255.255.255.0
+default-router 192.168.20.1
+
+
+exit
+write
