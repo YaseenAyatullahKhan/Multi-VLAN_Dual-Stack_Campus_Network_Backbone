@@ -1,0 +1,79 @@
+enable
+configure terminal
+
+hostname SW-Edge
+service password-encryption
+enable secret Corp-SW-Edge
+ip domain name enterprise.net
+crypto key generate rsa general-keys modulus 1024
+username net_admin privilege 15 secret Net_Admin@Corp-SW-Edge
+ip ssh version 2
+
+line vty 0 15
+ transport input ssh
+ login local
+
+# 1. VLAN Configurations
+vlan 10
+ name Corp_Operations
+vlan 20
+ name RD_Engineering
+vlan 99
+ name Native_Management
+exit
+
+# 2. Configure VLAN 99 Management SVI
+interface vlan 99
+ ip address 192.168.99.20 255.255.255.0
+ ipv6 address 2001:db8:acad:99::20/64
+ ipv6 address fe80::20 link-local
+ no shutdown
+exit
+ip default-gateway 192.168.99.1
+
+# 3. Configure Uplink Trunk
+interface GigabitEthernet1/0/2
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,99
+ no shutdown
+
+# 4. Access Port Mapping & Port Security
+# Fa0/10 maps to Corporate Ops PC
+interface GigabitEthernet1/0/10
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+
+# Fa0/11 maps to PC-3
+interface GigabitEthernet1/0/11
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+
+# Fa0/20 maps to R&D Engineering PC
+interface GigabitEthernet1/0/20
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+
+# Fa0/21 maps to PC-4
+interface GigabitEthernet1/0/21
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation shutdown
+
+exit
+write
