@@ -1,0 +1,20 @@
+# Packet Tracer Temporary & Lock Files
+*.pkz
+*.pka.bak
+*.pkt.bak
+*.wres
+
+# Operating System Metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local IDE/Text Editor Settings
+.vscode/
+.idea/
+*.swp
+*.log
+
+# Exclude un-sanitized raw command scratchpads
+scratchpad.txt
+secrets.local
